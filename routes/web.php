@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/clients', function () {
+    return view('oauth');
+});
+Route::get('/auth/jaccount', 'JaccountController@auth');
