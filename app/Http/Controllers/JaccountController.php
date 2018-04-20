@@ -6,6 +6,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class JaccountController extends Controller
 {
@@ -14,17 +17,24 @@ class JaccountController extends Controller
         $provider = new \League\OAuth2\Client\Provider\GenericProvider([
             'clientId'                => env('JACCOUNT_APPID'),
             'clientSecret'            => env('JACCOUNT_APPSECRET'),
-            'redirectUri'             => url("/auth/jaccount"),
+            'redirectUri'             => url("/auth/jaccount?returl="),
             'urlAuthorize'            => 'https://jaccount.sjtu.edu.cn/oauth2/authorize',
             'urlAccessToken'          => 'https://jaccount.sjtu.edu.cn/oauth2/token',
             'urlResourceOwnerDetails' => 'https://api.sjtu.edu.cn/v1/me/profile'
         ]);
 
         if (!isset($_GET['code'])) {
+            $url = Redirect::intended()->getTargetUrl();
+
             $authorizationUrl = $provider->getAuthorizationUrl();
             $_SESSION['oauth2state'] = $provider->getState();
-            header('Location: ' . $authorizationUrl);
-            exit;
+
+            Session::put('redirect', $url);
+
+            return view("redirect")->with(array(
+                "name" => "JAccount",
+                "url"  => $authorizationUrl,
+            ));
 
         } elseif (empty($_GET['state']) || (isset($_SESSION['oauth2state']) && $_GET['state'] !== $_SESSION['oauth2state'])) {
 
@@ -36,6 +46,8 @@ class JaccountController extends Controller
 
         } else {
 
+            $redirect = Session::get('redirect');
+
             try {
                 $accessToken = $provider->getAccessToken('authorization_code', [
                     'code' => $_GET['code']
@@ -44,7 +56,7 @@ class JaccountController extends Controller
                 $response = file_get_contents('https://api.sjtu.edu.cn/v1/me/profile?access_token=' . $accessToken->getToken());
                 $user = json_decode($response)->entities[0];
 
-                if (!Auth::attempt(['jaccount' => $user->account, 'password' => md5($user->name)])) {
+                if (!User::where('jaccount', $user->account)->count()) {
                     $new_user = new User(array(
                         "name" => $user->name,
                         "jaccount" => $user->account,
@@ -53,9 +65,10 @@ class JaccountController extends Controller
                         "student_id" => $user->code,
                     ));
                     $new_user->save();
-                    Auth::attempt(['jaccount' => $user->account, 'password' => md5($user->name)]);
-                    return redirect()->intended("/home");
                 }
+                Auth::attempt(['jaccount' => $user->account, 'password' => md5($user->name)]);
+
+                return redirect()->to($redirect);
 
             } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
 
