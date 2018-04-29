@@ -18,7 +18,24 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/clients', function () {
-    return view('oauth');
-});
+Route::get('/user', 'UserController@index');
+
 Route::get('/auth/jaccount', 'JaccountController@auth');
+
+Route::prefix("train")->group(function () {
+    Route::get('/leftTicket', 'TrainController@index');
+    Route::get('/detail', 'TrainController@detail');
+});
+
+Route::prefix("order")->group(function () {
+    Route::post('/add', 'OrderController@addOrder');
+});
+
+// APIs
+Route::prefix("api/user")->group(function () {
+    Route::get('/info', "ApiController@apiUserInfo");
+});
+
+Route::prefix("api/train")->group(function () {
+    Route::post('/leftTicket', "ApiController@apiLeftTicket");
+});
