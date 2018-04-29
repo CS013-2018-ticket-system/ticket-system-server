@@ -20,7 +20,9 @@ class CreateOrdersTable extends Migration
             $table->string('from_station');
             $table->string('to_station');
             $table->string('departure_date');
+            $table->string('departure_time');
             $table->string('seat_type');
+            $table->string('seat_no')->nullable();
             $table->float('price');
             $table->boolean('has_paid')->default(false);
             $table->boolean('has_cancelled')->default(false);

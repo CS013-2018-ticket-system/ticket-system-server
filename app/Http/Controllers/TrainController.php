@@ -35,6 +35,8 @@ class TrainController extends Controller
         $to_station_no = $request->to_station_no;
         $from_station_code = $request->from_station_code;
         $to_station_code = $request->to_station_code;
+        $start_time = $request->start_time;
+        $avail_seats = json_decode(urldecode($request->avail_seats), true);
 
         $seat_types = $request->seat_types;
         $train_date = $request->train_date;
@@ -46,7 +48,7 @@ class TrainController extends Controller
 
         $return_seat_types = array();
         foreach ($data as $key => $value) {
-            if (array_key_exists($key, TrainController::SEAT_TYPE)) {
+            if (array_key_exists($key, TrainController::SEAT_TYPE) && in_array($key, $avail_seats)) {
                 $return_seat_types[] = array(
                     "seat_type" => TrainController::SEAT_TYPE[$key],
                     "price" => $value,
@@ -65,6 +67,7 @@ class TrainController extends Controller
             "start_station_name" => Station::where('station_code', $from_station_code)->first()->station_name,
             "end_station_name" => Station::where('station_code', $to_station_code)->first()->station_name,
             "train_date" => $train_date,
+            "start_time" => $start_time,
         ));
     }
 }

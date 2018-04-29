@@ -60,6 +60,8 @@
 
                         <form action="{{ url('/order/add') }}" method="post">
                             {{ csrf_field() }}
+                            <input type="text" class="form-control" name="start_time" value="{{ $start_time }}" style="display: none">
+
                             <div class="row">
                                 <div class="form-group col-md-5">
                                     <div class="input-group mb-3">

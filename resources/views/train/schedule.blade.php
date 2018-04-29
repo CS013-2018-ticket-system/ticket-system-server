@@ -129,7 +129,7 @@
                             train.remain_seats[8],
                             train.remain_seats[9],
                             train.remain_seats[10],
-                            "<a href=\"{{ url('/train/detail') }}?train_no=" + train.train_no + "&from_station_no=" + train.start_station_id + "&to_station_no=" + train.end_station_id + "&seat_types=" + train.seat_type + "&train_date=" + train.date + "&from_station_code=" + train.user_start_station.station_code + "&to_station_code=" + train.user_end_station.station_code + "\" class=\"btn btn-outline-primary\" role=\"button\" target=\"_blank\">查看详情</a>\n"
+                            train.can_reserve ? "<a href=\"{{ url('/train/detail') }}?train_no=" + train.train_no + "&from_station_no=" + train.start_station_id + "&to_station_no=" + train.end_station_id + "&seat_types=" + train.seat_type + "&train_date=" + train.date + "&from_station_code=" + train.user_start_station.station_code + "&to_station_code=" + train.user_end_station.station_code + "&avail_seats=" + train.avail_seats + "&start_time=" + train.start_time + "\" class=\"btn btn-outline-primary\" role=\"button\" target=\"_blank\">预定座位</a>\n" : "列车已满"
                         ] ).draw(false);
 
                     });

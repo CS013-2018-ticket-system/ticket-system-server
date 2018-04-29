@@ -18,6 +18,19 @@ class ApiController extends Controller
     const ERR_INVALID_DATE = 10003;
     const ERR_REQUEST_TIMEOUT = 10004;
 
+    const SEAT_TYPE_INDEX = array(
+        26 => "WZ",
+        31 => "M",
+        32 => "A9",
+        23 => "A4",
+        28 => "A3",
+        30 => "O",
+        33 => "F",
+        20 => "A6",
+        29 => "A1",
+        24 => "A2",
+    );
+
     private $user;
 
     public function __construct()
@@ -107,6 +120,13 @@ class ApiController extends Controller
                         }
                     }
 
+                    $avail_seats = array();
+                    foreach ([32, 31, 30, 20, 23, 33, 28, 24, 29, 26] as $seats) {
+                        if ($train[$seats] != "无" && $train[$seats] != "--") {
+                            $avail_seats[] = ApiController::SEAT_TYPE_INDEX[$seats];
+                        }
+                    }
+
                     $data[] = array(
                         "note" => $train[0],
                         "train_no" => $train[2],
@@ -127,6 +147,8 @@ class ApiController extends Controller
                         "seat_type" => $train[35],
                         "start_station_id" => $train[16],
                         "end_station_id" => $train[17],
+                        "avail_seats" => urlencode(json_encode($avail_seats)),
+                        "can_reserve" => (count($avail_seats) != 0),
                     );
                 }
 
