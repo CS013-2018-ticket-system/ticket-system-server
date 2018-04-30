@@ -28,9 +28,11 @@ Route::prefix("train")->group(function () {
 });
 
 Route::prefix("order")->group(function () {
+    Route::get('/', 'OrderController@allOrder');
     Route::post('/add', 'OrderController@addOrder');
     Route::get('/pay/{order_id}', 'OrderController@payOrder');
     Route::get('/pay/confirm/{order_id}', 'OrderController@confirmPayOrder');
+    Route::get('/cancel/{order_id}', 'OrderController@cancelOrder');
 });
 
 // APIs

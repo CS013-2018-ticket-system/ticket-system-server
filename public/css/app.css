@@ -14421,3 +14421,11 @@ a.text-dark:focus {
 .tr-disabled > th {
   color: #c6c8ca;
 }
+
+.card {
+  transition: box-shadow 0.7s;
+}
+
+.card:hover {
+  box-shadow: 0px 0px 10px #888888;
+}

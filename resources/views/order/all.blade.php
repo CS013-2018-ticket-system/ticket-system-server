@@ -19,16 +19,17 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach ($orders as $order)
                             <tr>
                                 <th scope="row">{{ $order->id }}</th>
-                                <td>{{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }})<br />{{ $order->seat_type }} {{ $order->seat_no }}</td>
-                                <td>￥{{ $order->price }}</td>
+                                <td>{{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }})</td>
+                                <td>{{ $order->created_at }}</td>
                                 <td>{!! $order->status !!}</td>
                                 <td>
-                                    {!! $order->can_pay ? "<button type='button' class='btn btn-outline-info btn-sm' data-toggle='modal' data-target='#confirmPay'>支付</button>" : "" !!}
-                                    {!! $order->can_cancel ? "<button type='button' class='btn btn-outline-danger btn-sm' data-toggle='modal' data-target='#confirmCancel'>取消订单</button>" : "" !!}
+                                    <a class="btn btn-outline-primary btn-sm" href="{{ url("/order/pay/" . $order->id) }}" role="button">查看详情</a>
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\RefundRequests;
+use App\Trade;
 use Carbon\Carbon;
+use Composer\DependencyResolver\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 class OrderController extends Controller
 {
@@ -18,6 +22,13 @@ class OrderController extends Controller
     public function allOrder()
     {
         $orders = Order::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get();
+
+        foreach ($orders as $index => $order) {
+            $order_clone = clone $order;
+            $this->getStatus($order_clone, $order);
+
+            $orders[$index] = $order_clone;
+        }
 
         return view("order/all")->with(array(
             "orders" => $orders,
@@ -54,20 +65,62 @@ class OrderController extends Controller
 
     }
 
-    public function payOrder(Request $request)
+    public function cancelOrder(Request $request)
     {
-        $order = Order::where('id', $request->order_id)->where('user_id', Auth::user()->id);
+        $order = Order::where('id', $request->order_id)->where('user_id', Auth::user()->id)->where('has_cancelled', false);
         if (!$order->count()) {
             die("Invalid order");
         }
 
-        $order_obj = $order->first();
-        $order = clone $order_obj;
+        $order = $order->first();
+        if ($order->is_being_cancelled()) {
+            return Response::json(array(
+                "type" => "info",
+                "title" => "审核中",
+                "status" => "取消待审核",
+                "msg" => "您的取消订单请求正在被审核。<br />若取消成功，票款将返还至您的账户。"
+            ));
+        }
 
-        $order->can_pay = false;
+        if ($order->has_paid) {
+            $refund_req = new RefundRequests(array(
+                "user_id" => Auth::user()->id,
+                "order_id" => $request->order_id,
+                "has_confirmed" => false,
+            ));
+            $refund_req->save();
+            $need_verify = true;
+            $return = array(
+                "type" => "info",
+                "title" => "审核中",
+                "status" => "取消待审核",
+                "msg" => "您的取消订单请求需要被审核。<br />若取消成功，票款将返还至您的账户。"
+            );
 
+        } else {
+            $order->has_cancelled = true;
+            $order->save();
+            $need_verify = false;
+            $return = array(
+                "type" => "success",
+                "title" => "成功",
+                "status" => "<font color='red'>已取消</font>",
+                "msg" => "您的订单已成功取消。"
+            );
+        }
+
+        return Response::json($return);
+
+
+    }
+
+    public function getStatus(&$order, &$order_obj)
+    {
         if ($order->has_cancelled == true) {
             $order->status = "<font color='red'>已取消</font>";
+            $order->can_cancel = false;
+        } elseif ($order->is_being_cancelled() == true) {
+            $order->status = "取消待审核";
             $order->can_cancel = false;
         } elseif ($order->has_paid == true) {
             $order->status = "<font color='green'>已支付</font>";
@@ -88,6 +141,21 @@ class OrderController extends Controller
                 $order->can_pay = true;
             }
         }
+    }
+
+    public function payOrder(Request $request)
+    {
+        $order = Order::where('id', $request->order_id)->where('user_id', Auth::user()->id);
+        if (!$order->count()) {
+            die("Invalid order");
+        }
+
+        $order_obj = $order->first();
+        $order = clone $order_obj;
+
+        $order->can_pay = false;
+
+        $this->getStatus($order, $order_obj);
 
         return view("order/pay")->with(array(
             "order" => $order,
@@ -120,6 +188,14 @@ class OrderController extends Controller
 
         Auth::user()->balance -= $order->price;
         Auth::user()->save();
+
+        $trade = new Trade(array(
+            "user_id" => Auth::user()->id,
+            "order_id" => $order->id,
+            "amount" => -$order->price,
+            "note" => "{$order->departure_date} {$order->train_code}({$order->from_station}-->{$order->to_station}) {$order->seat_type}"
+        ));
+        $trade->save();
 
         return view("order.confirmed")->with(array(
             "success" => true,

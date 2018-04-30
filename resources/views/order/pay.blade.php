@@ -28,14 +28,19 @@
                                     <th scope="row">{{ $order->id }}</th>
                                     <td>{{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }})<br />{{ $order->seat_type }} {{ $order->seat_no }}</td>
                                     <td>￥{{ $order->price }}</td>
-                                    <td>{!! $order->status !!}</td>
-                                    <td>
+                                    <td id="status">{!! $order->status !!}</td>
+                                    <td id="operation">
                                         {!! $order->can_pay ? "<button type='button' class='btn btn-outline-info btn-sm' data-toggle='modal' data-target='#confirmPay'>支付</button>" : "" !!}
                                         {!! $order->can_cancel ? "<button type='button' class='btn btn-outline-danger btn-sm' data-toggle='modal' data-target='#confirmCancel'>取消订单</button>" : "" !!}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+
+                        <hr />
+
+                        <a role="button" class="btn btn-outline-primary" href="{{ url('/order') }}">返回所有订单</a>
+
                     </div>
 
                 </div>
@@ -91,7 +96,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-                    <button type="button" class="btn btn-primary" onclick="confirmCancel()">确认取消</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmCancel()" data-dismiss="modal">确认取消</button>
                 </div>
             </div>
         </div>
@@ -100,7 +105,15 @@
 
     <script>
         function confirmCancel() {
-
+            $.get( "{{ url("/order/cancel/" . $order->id) }}", function(data) {
+                $("#operation").html("");
+                $("#status").html(data.status);
+                if (data.type === "success") {
+                    toastr.success(data.msg, data.title);
+                } else {
+                    toastr.info(data.msg, data.title);
+                }
+            });
         }
     </script>
 
