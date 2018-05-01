@@ -89,7 +89,7 @@
                     leftColumns: 1,
                 }
             });
-        }
+        });
 
         function query() {
             $("#query").prop("disabled", true);
