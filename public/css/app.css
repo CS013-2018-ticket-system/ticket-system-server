@@ -14429,3 +14429,7 @@ a.text-dark:focus {
 .card:hover {
   box-shadow: 0px 0px 10px #888888;
 }
+
+main {
+  margin-top: 54.22px;
+}
