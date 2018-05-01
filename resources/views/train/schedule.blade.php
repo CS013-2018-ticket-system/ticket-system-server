@@ -85,10 +85,11 @@
                 "scrollX": true,
                 "bPaginate": false,
                 "bInfo": false,
-                "fixedColumns":   {
+                "fixedColumns": {
                     leftColumns: 1,
                 }
-            } );
+            });
+        }
 
         function query() {
             $("#query").prop("disabled", true);
