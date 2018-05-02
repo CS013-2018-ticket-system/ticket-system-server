@@ -73,6 +73,8 @@
     </div>
 
     <script>
+
+        let datatable;
         $(function () {
             $('#datetimepicker1').datetimepicker({
                 viewMode: 'days',
@@ -81,8 +83,9 @@
         });
 
         $(document).ready(function() {
-            $('#trains').DataTable({
+            datatable = $('#trains').DataTable({
                 "scrollX": true,
+                "scrollCollapse": true,
                 "bPaginate": false,
                 "bInfo": false,
                 "fixedColumns": {
@@ -99,7 +102,17 @@
             let from = $("#from").val();
             let to = $("#to").val();
             let date = $("#date").val();
-            let table = $('#trains').DataTable();
+
+            datatable.destroy();
+            let table = $('#trains').DataTable({
+                "scrollX": true,
+                "scrollCollapse": true,
+                "bPaginate": false,
+                "bInfo": false,
+                "fixedColumns": {
+                    leftColumns: 1,
+                }
+            });
 
             let data = {
                 from: from,

@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/user', 'UserController@index');
-
+Route::get('/auth/logout', 'UserController@getLogOut');
 Route::get('/auth/jaccount', 'JaccountController@auth');
 
 Route::prefix("train")->group(function () {
