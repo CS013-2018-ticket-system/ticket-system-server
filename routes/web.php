@@ -43,3 +43,7 @@ Route::prefix("api/user")->group(function () {
 Route::prefix("api/train")->group(function () {
     Route::post('/leftTicket', "ApiController@apiLeftTicket");
 });
+
+Route::prefix("api/admin")->group(function () {
+    Route::post('/login', 'UserController@apiAdminLogin');
+});
