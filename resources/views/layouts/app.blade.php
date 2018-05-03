@@ -72,9 +72,17 @@
                 </div>
             </div>
         </nav>
+        @else
+            <nav class="navbar navbar-expand-md navbar-light navbar-laravel fixed-top">
+                <div class="container">
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        订票系统
+                    </a>
+                </div>
+            </nav>
         @endif
 
-        <main class="py-4 {{ strpos($_SERVER['HTTP_USER_AGENT'], "Electron") === false ? "main-offset" : "" }}">
+        <main class="py-4 main-offset">
             @yield('content')
         </main>
     </div>
