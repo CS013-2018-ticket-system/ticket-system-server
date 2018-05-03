@@ -74,7 +74,7 @@
         </nav>
         @endif
 
-        <main class="py-4">
+        <main class="py-4 {{ strpos($_SERVER['HTTP_USER_AGENT'], "Electron") === false ? "main-offset" : "" }}">
             @yield('content')
         </main>
     </div>
