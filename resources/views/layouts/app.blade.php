@@ -33,6 +33,7 @@
 </head>
 <body>
     <div>
+        @if (strpos($_SERVER['HTTP_USER_AGENT'], "Electron") !== false)
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -71,6 +72,7 @@
                 </div>
             </div>
         </nav>
+        @endif
 
         <main class="py-4">
             @yield('content')
