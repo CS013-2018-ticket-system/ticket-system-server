@@ -28,6 +28,7 @@ var app  = new Framework7({
   panel: {
     leftBreakpoint: 960,
   },
+  cache: false,
 });
 
 // Init/Create left panel view
@@ -53,7 +54,12 @@ $$('#my-login-screen .login-button').on('click', function () {
 });
 
 app.on('pageInit', function (page) {
-    if (page.name === 'order_confirmed') {
+    if (page.name === 'all_orders') {
+        $$('#refresh_orders').on('click', function () {
+            console.log("refresh");
+            mainView.router.refreshPage()
+        });
+    } if (page.name === 'order_confirmed') {
         if ($$('#pay_success').html() === 'false') {
             var toastIcon = app.toast.create({
                 icon: '<i class="material-icons">close</i>',
@@ -75,6 +81,34 @@ app.on('pageInit', function (page) {
             app.dialog.confirm($$("#pay_dialog").html(), "支付订单", function () {
                 mainView.router.navigate('/pay/confirm/' + $$("#order_id").html(), {
                     reloadCurrent: true,
+                });
+            });
+        });
+
+        $$('#cancel_order').on('click', function () {
+            app.dialog.confirm($$("#cancel_dialog").html(), "取消订单", function () {
+                app.request({
+                    url: '/order/cancel/' + $$("#order_id").html(),
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success === true) {
+                            app.toast.create({
+                                icon: '<i class="material-icons">check</i>',
+                                text: '取消成功',
+                                position: 'center',
+                                closeTimeout: 2000,
+                            }).open();
+                        } else {
+                            app.toast.create({
+                                icon: '<i class="material-icons">info</i>',
+                                text: data.msg,
+                                position: 'center',
+                                closeTimeout: 2000,
+                            }).open();
+                        }
+                        mainView.router.refreshPage()
+                    }
                 });
             });
         });

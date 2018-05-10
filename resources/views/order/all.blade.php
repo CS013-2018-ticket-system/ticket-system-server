@@ -1,4 +1,10 @@
 <div class="page" data-name="all_orders" data-page="all_orders">
+    <div class="fab fab-right-bottom">
+        <a href="#" id="refresh_orders">
+            <i class="icon material-icons">refresh</i>
+        </a>
+    </div>
+
     <div class="navbar">
         <div class="navbar-inner sliding">
             <div class="left">

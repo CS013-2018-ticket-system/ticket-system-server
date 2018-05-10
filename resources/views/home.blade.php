@@ -42,10 +42,10 @@
                     <div class="list links-list">
                         <ul>
                             <li>
-                                <a href="/leftTicket/" data-view=".view-main" class="panel-close">车次查询</a>
+                                <a href="/leftTicket/" data-view=".view-main" data-ignore-cache="true" class="panel-close">车次查询</a>
                             </li>
                             <li>
-                                <a href="/orders/" data-view=".view-main" class="panel-close">我的订单</a>
+                                <a href="/orders/" data-view=".view-main" data-ignore-cache="true" class="panel-close">我的订单</a>
                             </li>
                         </ul>
                     </div>

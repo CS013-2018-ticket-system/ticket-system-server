@@ -2,7 +2,7 @@
     <div class="navbar">
         <div class="navbar-inner sliding">
             <div class="left">
-                <a href="#" class="link back">
+                <a href="#" class="link back" data-ignore-cache="true">
                     <i class="icon icon-back"></i>
                     <span class="ios-only">Back</span>
                 </a>
@@ -18,7 +18,7 @@
         <div class="card">
             <div class="card-header"><p><i class="material-icons">close</i> 支付失败</p></div>
             <div class="card-content card-content-padding">{{ $msg }}</div>
-            <div class="card-footer"><a class="button button-outline back" href="#">返回</a>
+            <div class="card-footer"><a class="button button-outline back" href="#" data-ignore-cache="true">返回</a>
             </div>
         </div>
 
@@ -34,7 +34,7 @@
                     <br />{{ $order->seat_no }}
                 </code>
             </div>
-            <div class="card-footer"><a class="button button-outline back" href="#">返回</a></div>
+            <div class="card-footer"><a class="button button-outline back" href="#" data-ignore-cache="true">返回</a></div>
         </div>
 
     @endif

@@ -2,7 +2,7 @@
     <div class="navbar">
         <div class="navbar-inner sliding">
             <div class="left">
-                <a href="#" class="link back">
+                <a href="#" class="link back" data-ignore-cache="true">
                     <i class="icon icon-back"></i>
                     <span class="ios-only">Back</span>
                 </a>
@@ -16,13 +16,14 @@
             <li><strong>订单 #{{ $order->id }}</strong></li>
             <li><code>{{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }}): {{ $order->seat_type }} {{ $order->seat_no }}</code></li>
             <li>应付款 ￥{{ $order->price }}</li>
-            <li>{!! $order->status !!}</li>
-            <li>
-                <p class="segmented" style="min-width: 300px">
-                    {!! $order->can_pay ? "<button id='confirm_pay' class='col button button-outline button-small button-round color-green'>支付订单</button>" : "" !!}
-                    {!! $order->can_cancel ? "<button id='cancel_order' class='col button button-outline button-small button-round color-red'>取消订单</button>" : "" !!}
-                    <a class="button button-outline button-small button-round back" href="#">返回</a>
-                </p>
+            <li id="status">{!! $order->status !!}</li>
+            <li class="row">
+                {!! $order->can_pay ? "<button id='confirm_pay' class='col-15 button button-outline button-small button-round color-green'>支付订单</button>" : "" !!}
+                {!! $order->can_cancel ? "<button id='cancel_order' class='col-15 button button-outline button-small button-round color-red'>取消订单</button>" : "" !!}
+                <a class="col-15 button button-outline button-small button-round back" href="#">返回</a>
+                <div class="col-{{ 85 - $order->can_pay * 15 - $order->can_cancel * 15 }}">
+                    <!-- 占位 -->
+                </div>
             </li>
         </ul>
     </div>
@@ -50,19 +51,3 @@
     @endif
 
 </div>
-
-
-
-    <script>
-        function confirmCancel() {
-            $.get( "{{ url("/order/cancel/" . $order->id) }}", function(data) {
-                $("#operation").html("");
-                $("#status").html(data.status);
-                if (data.type === "success") {
-                    toastr.success(data.msg, data.title);
-                } else {
-                    toastr.info(data.msg, data.title);
-                }
-            });
-        }
-    </script>
