@@ -47,12 +47,6 @@
                             <li>
                                 <a href="/orders/" data-view=".view-main" class="panel-close">我的订单</a>
                             </li>
-                            <li>
-                                <a href="/form/" data-view=".view-main" class="panel-close">Form</a>
-                            </li>
-                            <li>
-                                <a href="#" data-view=".view-main" class="back">Back in history</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -80,7 +74,7 @@
             <div class="toolbar">
                 <div class="toolbar-inner">
                     <a href="#" class="link">{{ Auth::user()->name }} 的账户</a>
-                    <a href="#" class="link">注销</a>
+                    <a href="{{ '/logout' }}" class="link">注销</a>
                 </div>
             </div>
             <!-- Scrollable page content-->

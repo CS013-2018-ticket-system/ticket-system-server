@@ -35,6 +35,12 @@ routes = [
     path: '/form/',
     url: './pages/form.html',
   },
+  {
+    path: '/logout',
+    async: function (routeTo, routeFrom, resolve, reject) {
+      window.location.href = "/auth/logout";
+    }
+  },
   // Page Loaders & Router
   {
     path: '/page-loader-template7/:user/:userId/:posts/:postId/',
