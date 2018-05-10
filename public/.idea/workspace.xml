@@ -35,8 +35,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="42" />
+            <state relative-caret-position="139">
+              <caret line="60" selection-start-line="60" selection-end-line="60" />
               <folding>
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
               </folding>
@@ -164,12 +164,12 @@
       <option name="presentableId" value="Default" />
       <updated>1525708135571</updated>
       <workItem from="1525708137038" duration="3612000" />
-      <workItem from="1525849886798" duration="15967000" />
+      <workItem from="1525849886798" duration="16402000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19579000" />
+    <option name="totallyTimeSpent" value="20014000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="17" y="29" width="1260" height="684" extended-state="0" />
@@ -262,8 +262,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="42" />
+        <state relative-caret-position="139">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
           <folding>
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
           </folding>
