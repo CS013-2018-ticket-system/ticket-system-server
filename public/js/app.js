@@ -47,10 +47,8 @@ $$('#my-login-screen .login-button').on('click', function () {
   var password = $$('#my-login-screen [name="password"]').val();
 
   // Close login screen
-  app.loginScreen.close('#my-login-screen');
+  // app.loginScreen.close('#my-login-screen');
 
-  // Alert username and password
-  app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
 });
 
 app.request({
