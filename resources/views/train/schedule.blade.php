@@ -1,159 +1,85 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">车次查询</div>
-
-                    <div class="card-body">
-                        <div class="row">
-
-                            <div class="input-group col-md-5">
-                                <input type="text" class="form-control" placeholder="出发地" id="from">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">--></span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="目的地" id="to">
-                            </div>
-
-
-                            <div class="col-md-5">
-                                <div class='input-group date' id='datetimepicker1'>
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">出发日期</span>
-                                    </div>
-                                    <input type='text' class="form-control" id="date"/>
-                                    <span class="input-group-addon">
-                                        <i class="fas fa-calendar-alt" style="font-size: 1.3em; margin-top: 0.5em; margin-left: 0.3em"></i>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1">
-                                <button type="button" class="btn btn-outline-info" onclick="query()" id="query">查询</button>
-                            </div>
-                        </div>
-
-                        <hr />
-
-                        <table id="trains" class="table table-striped table-bordered display nowrap" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th>车次</th>
-                                <th>出发站</th>
-                                <th>到达站</th>
-                                <th>出发时间</th>
-                                <th>到达时间</th>
-                                <th>历时</th>
-                                <th>商务座 / 特等座</th>
-                                <th>一等座</th>
-                                <th>二等座</th>
-                                <th>高级软卧</th>
-                                <th>软卧</th>
-                                <th>动卧</th>
-                                <th>硬卧</th>
-                                <th>软座</th>
-                                <th>硬座</th>
-                                <th>无座</th>
-                                <th>其他</th>
-                                <th>备注</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-
-
-                    </div>
-                </div>
+<div class="page" data-name="left_ticket" data-page="left_ticket">
+    <div class="navbar">
+        <div class="navbar-inner sliding">
+            <div class="left">
+                <a href="#" class="link back">
+                    <i class="icon icon-back"></i>
+                    <span class="ios-only">Back</span>
+                </a>
             </div>
+            <div class="title">车次查询</div>
         </div>
     </div>
+    <input id="_csrf" type="text" value="{{ csrf_token() }}" hidden/>
+    <div class="page-content">
+        <div class="list no-hairlines-md">
+            <ul>
+                <li>
+                    <div class="row">
+                        <div class="item-content item-input col-24">
+                            <div class="item-inner">
+                                <div class="item-title item-label">出发站</div>
+                                <div class="item-input-wrap">
+                                    <input id="departure" type="text" placeholder="Departure"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-content item-input col-24">
+                            <div class="item-inner">
+                                <div class="item-title item-label">到达站</div>
+                                <div class="item-input-wrap">
+                                    <input id="arrival" type="text" placeholder="Arrival"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-content item-input col-30">
+                            <div class="item-inner">
+                                <div class="item-title item-label">出发日期</div>
+                                <div class="item-input-wrap">
+                                    <input type="text" placeholder="Departure Date" readonly="readonly" id="departure_date"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-content item-input col-16">
+                            <button class="col button button-outline" id="search-button">查询</button>
+                        </div>
+                        <div class="item-content item-input col-6">
+                            <!-- 占位 -->
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
-    <script>
+            <div class="data-table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th class="label-cell sortable-cell">车次</th>
+                        <th class="label-cell sortable-cell">预定座位</th>
+                        <th class="label-cell sortable-cell">出发站</th>
+                        <th class="label-cell sortable-cell">到达站</th>
+                        <th class="label-cell sortable-cell">出发时间</th>
+                        <th class="label-cell sortable-cell">到达时间</th>
+                        <th class="label-cell sortable-cell">历时</th>
+                        <th class="label-cell sortable-cell">商务座 / 特等座</th>
+                        <th class="label-cell sortable-cell">一等座</th>
+                        <th class="label-cell sortable-cell">二等座</th>
+                        <th class="label-cell sortable-cell">高级软卧</th>
+                        <th class="label-cell sortable-cell">软卧</th>
+                        <th class="label-cell sortable-cell">动卧</th>
+                        <th class="label-cell sortable-cell">硬卧</th>
+                        <th class="label-cell sortable-cell">软座</th>
+                        <th class="label-cell sortable-cell">硬座</th>
+                        <th class="label-cell sortable-cell">无座</th>
+                        <th class="label-cell sortable-cell">其他</th>
+                    </tr>
+                    </thead>
+                    <tbody id="trains_data">
 
-        let datatable;
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-                viewMode: 'days',
-                format: 'YYYY/MM/DD'
-            });
-        });
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-        $(document).ready(function() {
-            datatable = $('#trains').DataTable({
-                "scrollX": true,
-                "scrollCollapse": true,
-                "bPaginate": false,
-                "bInfo": false,
-                "fixedColumns": {
-                    leftColumns: 1,
-                }
-            });
-        });
-
-        function query() {
-            $("#query").prop("disabled", true);
-            $("#query").html("查询中...");
-
-
-            let from = $("#from").val();
-            let to = $("#to").val();
-            let date = $("#date").val();
-
-            datatable.destroy();
-            let table = $('#trains').DataTable({
-                "scrollX": true,
-                "scrollCollapse": true,
-                "bPaginate": false,
-                "bInfo": false,
-                "fixedColumns": {
-                    leftColumns: 1,
-                }
-            });
-
-            let data = {
-                from: from,
-                to: to,
-                date: date,
-                _token: "{{ csrf_token() }}"
-            };
-
-            $.post("{{ url('/api/train/leftTicket') }}", data, function( data ) {
-                if (data.success === false) {
-                    toastr.error(data.msg + " (" + data.errcode + ")", '错误')
-                } else {
-                    table.clear();
-                    $.each(data.data, function( index, train ) {
-                        table.row.add( [
-                            train.train_code,
-                            train.user_start_station.station_name + "(" + train.user_start_station.station_code + ")",
-                            train.user_end_station.station_name + "(" + train.user_end_station.station_code + ")",
-                            train.start_time,
-                            train.end_time,
-                            train.duration,
-                            train.remain_seats[0],
-                            train.remain_seats[1],
-                            train.remain_seats[2],
-                            train.remain_seats[3],
-                            train.remain_seats[4],
-                            train.remain_seats[5],
-                            train.remain_seats[6],
-                            train.remain_seats[7],
-                            train.remain_seats[8],
-                            train.remain_seats[9],
-                            train.remain_seats[10],
-                            train.can_reserve ? "<a href=\"{{ url('/train/detail') }}?train_no=" + train.train_no + "&from_station_no=" + train.start_station_id + "&to_station_no=" + train.end_station_id + "&seat_types=" + train.seat_type + "&train_date=" + train.date + "&from_station_code=" + train.user_start_station.station_code + "&to_station_code=" + train.user_end_station.station_code + "&avail_seats=" + train.avail_seats + "&start_time=" + train.start_time + "\" class=\"btn btn-outline-primary\" role=\"button\" target=\"_blank\">预定座位</a>\n" : "列车已满"
-                        ] ).draw(false);
-
-                    });
-                }
-                $("#query").prop("disabled", false);
-                $("#query").html("查询");
-
-            });
-        }
-    </script>
-@endsection
+    </div>
+</div>

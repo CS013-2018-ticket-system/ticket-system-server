@@ -107,7 +107,7 @@ class ApiController extends Controller
             try {
                 $client = new \GuzzleHttp\Client();
                 $res = $client->get("https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date={$date}&leftTicketDTO.from_station={$from_station->station_code}&leftTicketDTO.to_station={$to_station->station_code}&purpose_codes=ADULT",
-                    ['timeout' => 10]);
+                    ['timeout' => 20]);
                 $return_json = json_decode($res->getBody())->data;
                 $data = array();
 
@@ -168,5 +168,12 @@ class ApiController extends Controller
         }
 
 
+    }
+
+    function apiStationsSearch(Request $request) {
+        $keyword = Input::get("query");
+        $query = "%{$keyword}%";
+        $list = Station::where("station_name", "like", $query)->orWhere("station_abbr", "like", $query)->orWhere("station_py", "like", $query)->orWhere("station_code", "like", $query)->limit(20)->pluck("station_name");
+        return $list;
     }
 }

@@ -35,6 +35,10 @@ Route::prefix("order")->group(function () {
     Route::get('/cancel/{order_id}', 'OrderController@cancelOrder');
 });
 
+Route::prefix("user")->group(function () {
+    Route::get('/balance', 'BalanceController@showBalance');
+});
+
 // APIs
 Route::prefix("api/user")->group(function () {
     Route::get('/info', "ApiController@apiUserInfo");
@@ -46,4 +50,8 @@ Route::prefix("api/train")->group(function () {
 
 Route::prefix("api/admin")->group(function () {
     Route::post('/login', 'UserController@apiAdminLogin');
+});
+
+Route::prefix("api/stations")->group(function () {
+    Route::get('/search', 'ApiController@apiStationsSearch');
 });

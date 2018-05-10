@@ -43,7 +43,7 @@ class TrainController extends Controller
 
         $client = new \GuzzleHttp\Client();
         $res = $client->get("https://kyfw.12306.cn/otn/leftTicket/queryTicketPrice?train_no={$train_no}&from_station_no={$from_station_no}&to_station_no={$to_station_no}&seat_types={$seat_types}&train_date={$train_date}",
-            ['timeout' => 10]);
+            ['timeout' => 30]);
         $data = json_decode($res->getBody(), true)["data"];
 
         $return_seat_types = array();
@@ -58,7 +58,7 @@ class TrainController extends Controller
 
         $client = new \GuzzleHttp\Client();
         $res = $client->get("https://kyfw.12306.cn/otn/czxx/queryByTrainNo?train_no={$train_no}&from_station_telecode={$from_station_code}&to_station_telecode={$to_station_code}&depart_date={$train_date}",
-            ['timeout' => 10]);
+            ['timeout' => 30]);
         $data = json_decode($res->getBody())->data->data;
 
         return view("train/detail")->with(array(

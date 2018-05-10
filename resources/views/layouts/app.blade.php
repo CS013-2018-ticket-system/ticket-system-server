@@ -47,6 +47,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li><a class="nav-link" href="{{ url('/train/leftTicket') }}">车次查询</a></li>
+                        <li><a class="nav-link" href="{{ url('/order') }}">我的订单</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -62,8 +63,11 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ url("/user/balance") }}">
+                                        我的账户
+                                    </a>
                                     <a class="dropdown-item" href="{{ url("/auth/logout") }}">
-                                        {{ __('Logout') }}
+                                        注销
                                     </a>
                                 </div>
                             </li>

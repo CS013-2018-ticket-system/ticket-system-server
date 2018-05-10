@@ -1,107 +1,57 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">订单支付</div>
-
-                    <div class="card-body">
-                        @if ($request->success == 1)
-                            <div class="alert alert-success" role="alert">
-                                您的订单 #{{ $order->id }} 创建成功！
-                            </div>
-                        @endif
-                            <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">流水号</th>
-                                    <th scope="col">订单详情</th>
-                                    <th scope="col">订单总价</th>
-                                    <th scope="col">状态</th>
-                                    <th scope="col">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">{{ $order->id }}</th>
-                                    <td>{{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }})<br />{{ $order->seat_type }} {{ $order->seat_no }}</td>
-                                    <td>￥{{ $order->price }}</td>
-                                    <td id="status">{!! $order->status !!}</td>
-                                    <td id="operation">
-                                        {!! $order->can_pay ? "<button type='button' class='btn btn-outline-info btn-sm' data-toggle='modal' data-target='#confirmPay'>支付</button>" : "" !!}
-                                        {!! $order->can_cancel ? "<button type='button' class='btn btn-outline-danger btn-sm' data-toggle='modal' data-target='#confirmCancel'>取消订单</button>" : "" !!}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <hr />
-
-                        <a role="button" class="btn btn-outline-primary" href="{{ url('/order') }}">返回所有订单</a>
-
-                    </div>
-
-                </div>
+<div class="page" data-name="order_pay" data-page="order_pay">
+    <div class="navbar">
+        <div class="navbar-inner sliding">
+            <div class="left">
+                <a href="#" class="link back">
+                    <i class="icon icon-back"></i>
+                    <span class="ios-only">Back</span>
+                </a>
             </div>
+            <div class="title">支付订单</div>
         </div>
     </div>
+    <div class="block-title">订单信息</div>
+    <div class="list simple-list">
+        <ul>
+            <li><strong>订单 #{{ $order->id }}</strong></li>
+            <li><code>{{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }}): {{ $order->seat_type }} {{ $order->seat_no }}</code></li>
+            <li>应付款 ￥{{ $order->price }}</li>
+            <li>{!! $order->status !!}</li>
+            <li>
+                <p class="segmented" style="min-width: 300px">
+                    {!! $order->can_pay ? "<button id='confirm_pay' class='col button button-outline button-small button-round color-green'>支付订单</button>" : "" !!}
+                    {!! $order->can_cancel ? "<button id='cancel_order' class='col button button-outline button-small button-round color-red'>取消订单</button>" : "" !!}
+                    <a class="button button-outline button-small button-round back" href="#">返回</a>
+                </p>
+            </li>
+        </ul>
+    </div>
+
+    <div id="can_pay" hidden>{{ $order->can_pay ? "true" : "false" }}</div>
+    <div id="can_cancel" hidden>{{ $order->can_cancel ? "true" : "false" }}</div>
+    <div id="order_id" hidden>{{ $order->id }}</div>
+
 
     @if ($order->can_pay)
-    <!-- Modal -->
-    <div class="modal fade" id="confirmPay" tabindex="-1" role="dialog" aria-labelledby="confirmPayLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">确认支付订单</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    您将要支付 {{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }}) {{ $order->seat_type }}
-                    <br />
-                    您目前余额 ￥{{ \Auth::user()->balance }}，票价￥{{ $order->price }}{{ \Auth::user()->balance < $order->price ? "，余额不足。" : "" }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                    @if (\Auth::user()->balance < $order->price)
-                        <button type="button" class="btn btn-primary" disabled>余额不足</button>
-                    @else
-                        <a class="btn btn-primary" href="{{ url("/order/pay/confirm/" . $order->id) }}" role="button">确认支付</a>
-                    @endif
-                </div>
-            </div>
+        <div id="pay_dialog" style="display: none">
+            您将要支付 {{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }}) {{ $order->seat_type }}
+            <br />
+            您目前余额 ￥{{ \Auth::user()->balance }}，票价￥{{ $order->price }}{{ \Auth::user()->balance < $order->price ? "，余额不足。" : "" }}
         </div>
-    </div>
     @endif
 
 
     @if ($order->can_cancel)
-    <!-- Modal -->
-    <div class="modal fade" id="confirmCancel" tabindex="-1" role="dialog" aria-labelledby="confirmCancelLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">取消订单</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    您将要取消 {{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }}) {{ $order->seat_type }}
-                    <br />
-                    确认取消订单吗？此操作将无法撤销。
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-                    <button type="button" class="btn btn-primary" onclick="confirmCancel()" data-dismiss="modal">确认取消</button>
-                </div>
-            </div>
+        <div id="cancel_dialog" style="display: none">
+            您将要取消 {{ $order->departure_date }} {{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }}) {{ $order->seat_type }}
+            <br />
+            确认取消订单吗？此操作将无法撤销。
         </div>
-    </div>
     @endif
+
+</div>
+
+
 
     <script>
         function confirmCancel() {
@@ -116,5 +66,3 @@
             });
         }
     </script>
-
-@endsection

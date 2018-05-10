@@ -61,7 +61,10 @@ class OrderController extends Controller
 
         $order->save();
 
-        return redirect()->to("/order/pay/" . $order->id);
+        return Response::json(array(
+            "success" => true,
+            "order_id" => $order->id,
+        ));
 
     }
 
