@@ -176,4 +176,10 @@ class ApiController extends Controller
         $list = Station::where("station_name", "like", $query)->orWhere("station_abbr", "like", $query)->orWhere("station_py", "like", $query)->orWhere("station_code", "like", $query)->limit(20)->pluck("station_name");
         return $list;
     }
+
+    function apiUserLogon() {
+        return Response::json(array(
+            'is_login' => Auth::check(),
+        ));
+    }
 }

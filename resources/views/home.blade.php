@@ -73,14 +73,14 @@
             <!-- Toolbar-->
             <div class="toolbar">
                 <div class="toolbar-inner">
-                    <a href="#" class="link">{{ Auth::user()->name }} 的账户</a>
+                    <a href="#" class="link">{{ Auth::check() ? Auth::user()->name : "" }} 的账户</a>
                     <a href="{{ '/logout' }}" class="link">注销</a>
                 </div>
             </div>
             <!-- Scrollable page content-->
             <div class="page-content">
                 <div class="block block-strong">
-                    <p>Hi, {{ Auth::user()->name }} @ {{ Auth::user()->college }}</p>
+                    <p>Hi, {{ Auth::check() ? Auth::user()->name : "" }} @ {{ Auth::check() ? Auth::user()->college : "" }}</p>
 
                     <p>欢迎使用订票系统！</p>
 
@@ -91,28 +91,26 @@
         </div>
     </div>
 
-
-    <!-- Login Screen -->
     <div class="login-screen" id="my-login-screen">
         <div class="view">
             <div class="page">
                 <div class="page-content login-screen-content">
-                    <div class="login-screen-title">Login</div>
+                    <div class="login-screen-title">登录</div>
                     <div class="list">
                         <ul>
                             <li class="item-content item-input">
                                 <div class="item-inner">
-                                    <div class="item-title item-label">Username</div>
+                                    <div class="item-title item-label">用户名</div>
                                     <div class="item-input-wrap">
-                                        <input type="text" name="username" placeholder="Your username">
+                                        <input type="text" name="username" placeholder="Username">
                                     </div>
                                 </div>
                             </li>
                             <li class="item-content item-input">
                                 <div class="item-inner">
-                                    <div class="item-title item-label">Password</div>
+                                    <div class="item-title item-label">密码</div>
                                     <div class="item-input-wrap">
-                                        <input type="password" name="password" placeholder="Your password">
+                                        <input type="password" name="password" placeholder="Password">
                                     </div>
                                 </div>
                             </li>
@@ -121,15 +119,18 @@
                     <div class="list">
                         <ul>
                             <li>
-                                <a href="#" class="item-link list-button login-button">Sign In</a>
+                                <a href="#" class="item-link list-button login-button">登录</a>
+                            </li>
+                            <li>
+                                <a href="/jaccount/" class="item-link list-button">JAccount登录</a>
                             </li>
                         </ul>
-                        <div class="block-footer">Some text about login information.<br>Click "Sign In" to close Login Screen</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 <!-- Cordova -->
 <!--

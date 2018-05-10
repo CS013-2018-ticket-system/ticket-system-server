@@ -42,6 +42,7 @@ Route::prefix("user")->group(function () {
 // APIs
 Route::prefix("api/user")->group(function () {
     Route::get('/info', "ApiController@apiUserInfo");
+    Route::get('/isLogin', 'ApiController@apiUserLogon');
 });
 
 Route::prefix("api/train")->group(function () {

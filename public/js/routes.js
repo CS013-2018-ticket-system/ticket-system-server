@@ -32,6 +32,10 @@ routes = [
     url: '/order',
   },
   {
+    path: '/login-screen/',
+    url: './pages/login-screen.html'
+  },
+  {
     path: '/form/',
     url: './pages/form.html',
   },
@@ -39,6 +43,12 @@ routes = [
     path: '/logout',
     async: function (routeTo, routeFrom, resolve, reject) {
       window.location.href = "/auth/logout";
+    }
+  },
+  {
+    path: '/jaccount/',
+    async: function (routeTo, routeFrom, resolve, reject) {
+      window.location.href = "/auth/jaccount";
     }
   },
   // Page Loaders & Router

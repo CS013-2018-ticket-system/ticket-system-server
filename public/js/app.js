@@ -53,13 +53,35 @@ $$('#my-login-screen .login-button').on('click', function () {
   app.dialog.alert('Username: ' + username + '<br>Password: ' + password);
 });
 
+app.request({
+    url: '/api/user/isLogin',
+    method: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        if (data.is_login === false) {
+            var login_screen = app.loginScreen.create({
+                el: $$("#my-login-screen"),
+            });
+            login_screen.open();
+        }
+    }
+});
+
+$$('#jaccount_login').on('click', function () {
+    console.log('click')
+    window.location.href = "/auth/jaccount";
+});
+
 app.on('pageInit', function (page) {
-    if (page.name === 'all_orders') {
+    if (page.name === 'home') {
+
+    } else if (page.name === 'all_orders') {
+        app.preloader.hide();
         $$('#refresh_orders').on('click', function () {
-            console.log("refresh");
+            app.preloader.show();
             mainView.router.refreshPage()
         });
-    } if (page.name === 'order_confirmed') {
+    } else if (page.name === 'order_confirmed') {
         if ($$('#pay_success').html() === 'false') {
             var toastIcon = app.toast.create({
                 icon: '<i class="material-icons">close</i>',
