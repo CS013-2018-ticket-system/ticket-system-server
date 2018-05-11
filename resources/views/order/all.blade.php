@@ -25,6 +25,7 @@
                 <tr>
                     <th class="label-cell sortable-cell">流水号</th>
                     <th class="label-cell sortable-cell">车次</th>
+                    <th class="label-cell sortable-cell">上/下车站</th>
                     <th class="label-cell sortable-cell">下单日期</th>
                     <th class="label-cell sortable-cell">状态</th>
                     <th class="label-cell sortable-cell">操作</th>
@@ -34,8 +35,11 @@
                 <tbody>
                 @foreach ($orders as $order)
                     <tr>
-                        <th>{{ $order->id }}</th>
-                        <td>{{ $order->train_code }}({{ $order->from_station }}-->{{ $order->to_station }})</td>
+                        <td>{{ $order->id }}</td>
+                        <td style='font-size: 1.5em; font-weight: 600'>{{ $order->train_code }}</td>
+                        <td>{{ $order->from_station }}
+                            <i class="material-icons">arrow_forward</i>
+                            {{ $order->to_station }}</td>
                         <td>{{ $order->created_at }}</td>
                         <td>{!! $order->status !!}</td>
                         <td>

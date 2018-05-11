@@ -40,7 +40,7 @@
                                     <tbody>
                                     @foreach ($time_schedule as $station)
                                         <tr class="{{ $station->isEnabled ? "" : "tr-disabled" }}">
-                                            <th scope="row">{{ $station->station_no }}</th>
+                                            <td>{{ $station->station_no }}</td>
                                             <td>{{ $station->station_name }}</td>
                                             <td>{{ $station->arrive_time }}</td>
                                             <td>{{ $station->start_time }}</td>
