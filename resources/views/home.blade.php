@@ -20,7 +20,7 @@
     <meta name="msapplication-tap-highlight" content="no">
     <title>订票系统</title>
 
-    <link rel="stylesheet" href="framework7/css/framework7.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/framework7/2.2.5/css/framework7.min.css">
     <link rel="stylesheet" href="css/icons.css">
     <link rel="stylesheet" href="css/app.css">
 </head>
@@ -138,7 +138,7 @@
 -->
 
 <!-- Framework7 library -->
-<script src="framework7/js/framework7.min.js"></script>
+<script src="https://cdn.bootcss.com/framework7/2.2.5/js/framework7.min.js"></script>
 
 <!-- App routes -->
 <script src="js/routes.js"></script>
