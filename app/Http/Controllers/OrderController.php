@@ -186,7 +186,7 @@ class OrderController extends Controller
         $seat_no = random_int(1, 30) . chr(random_int(ord("A"), ord("E")));
 
         $order->has_paid = true;
-        $order->seat_no = "{$car_no}车 {$seat_no}座";
+        $order->seat_no = $order->seat_type == "无座" ? "" : "{$car_no}车 {$seat_no}座";
         $order->save();
 
         Auth::user()->balance -= $order->price;
