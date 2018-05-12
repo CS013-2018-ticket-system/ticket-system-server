@@ -47,6 +47,9 @@
                             <li>
                                 <a href="/orders/" data-view=".view-main" data-ignore-cache="true" class="panel-close">我的订单</a>
                             </li>
+                            <li>
+                                <a href="/account/" data-view=".view-main" data-ignore-cache="true" class="panel-close">我的账户</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

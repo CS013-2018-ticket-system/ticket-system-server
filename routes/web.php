@@ -57,3 +57,7 @@ Route::prefix("api/admin")->group(function () {
 Route::prefix("api/stations")->group(function () {
     Route::get('/search', 'ApiController@apiStationsSearch');
 });
+
+Route::prefix("user")->group(function() {
+    Route::get('/account', 'UserController@account');
+});

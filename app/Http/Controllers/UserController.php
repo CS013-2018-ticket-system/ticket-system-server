@@ -41,4 +41,16 @@ class UserController extends Controller
             ));
         }
     }
+
+    public function account()
+    {
+        $balance = Auth::user()->balance;
+        $trades = Auth::user()->trades;
+
+        return view('account')->with(array(
+            "yuan" => round($balance),
+            "cent" => $balance - round($balance),
+            "trades" => $trades,
+        ));
+    }
 }

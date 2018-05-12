@@ -40,6 +40,10 @@ routes = [
     url: './pages/form.html',
   },
   {
+      path: '/account/',
+      url: '/user/account',
+  },
+  {
     path: '/logout',
     async: function (routeTo, routeFrom, resolve, reject) {
       window.location.href = "/auth/logout";

@@ -58,20 +58,6 @@
                         <th class="label-cell sortable-cell">预定座位</th>
                         <th class="label-cell sortable-cell">出发站</th>
                         <th class="label-cell sortable-cell">到达站</th>
-                        <th class="label-cell sortable-cell">出发时间</th>
-                        <th class="label-cell sortable-cell">到达时间</th>
-                        <th class="label-cell sortable-cell">历时</th>
-                        <th class="label-cell sortable-cell">商务座 / 特等座</th>
-                        <th class="label-cell sortable-cell">一等座</th>
-                        <th class="label-cell sortable-cell">二等座</th>
-                        <th class="label-cell sortable-cell">高级软卧</th>
-                        <th class="label-cell sortable-cell">软卧</th>
-                        <th class="label-cell sortable-cell">动卧</th>
-                        <th class="label-cell sortable-cell">硬卧</th>
-                        <th class="label-cell sortable-cell">软座</th>
-                        <th class="label-cell sortable-cell">硬座</th>
-                        <th class="label-cell sortable-cell">无座</th>
-                        <th class="label-cell sortable-cell">其他</th>
                     </tr>
                     </thead>
                     <tbody id="trains_data">
