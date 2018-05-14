@@ -7,6 +7,7 @@ use App\RefundRequests;
 use App\Trade;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 
 class AdminApiController extends Controller
@@ -28,7 +29,16 @@ class AdminApiController extends Controller
     public function apiReviewRefund(Request $request)
     {
         $refund_id = $request->refund_id;
-        $refund = RefundRequests::where("id", $refund_id)->first();
+        $refund = RefundRequests::where("id", $refund_id)->where("has_confirmed", false);
+
+        if (!$refund->count()) {
+            return Response::json(array(
+                "success" => false,
+                "err_msg" => "该订单已取消或找不到该订单。"
+            ));
+        } else {
+            $refund = $refund->first();
+        }
 
         $refund->has_confirmed = true;
         $refund->confirmed_by = User::where("remember_token", $request->access_token)->first()->id;
@@ -43,7 +53,15 @@ class AdminApiController extends Controller
         ));
         $transaction->save();
 
+        $user = User::where("id", $refund->user_id)->first();
+        $user->balance += $refund->order->price;
+        $user->save();
+
         event(new RefundReviewedEvent($refund));
+
+        return Response::json(array(
+            "success" => true,
+        ));
 
     }
 }

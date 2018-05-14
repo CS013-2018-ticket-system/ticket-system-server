@@ -10,9 +10,10 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 
-class RefundReviewedEvent
+class RefundReviewedEvent extends Event implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -35,7 +36,7 @@ class RefundReviewedEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('user.'.Hash::make(Auth::user()->id));
+        return new PrivateChannel('App.User.'.$this->data->user_id);
     }
 
     /**
@@ -55,6 +56,9 @@ class RefundReviewedEvent
      */
     public function broadcastWith()
     {
-        return ['msg' => "您的订单#{$this->data->user_id}取消请求已被审核，￥{$this->data->order->price}将立即返回至您的账户中。"];
+        return [
+            'msg' => "您的订单 #{$this->data->order_id} 取消请求已被审核，￥{$this->data->order->price}将立即返回至您的账户中。",
+            'user_id' => $this->data->user_id,
+        ];
     }
 }

@@ -11,6 +11,6 @@ class RefundRequests extends Model
 
     public function order()
     {
-        $this->hasOne("App\Order", "id", "order_id");
+        return $this->hasOne("App\Order", "id", "order_id");
     }
 }

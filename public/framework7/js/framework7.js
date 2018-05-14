@@ -2936,7 +2936,7 @@
         metaViewport && metaViewport.getAttribute('content').indexOf('minimal-ui') >= 0;
     }
 
-    // Check for status bar and fullscreen app mode
+    // Check for status bar and fullscreen fr7 mode
     device.needsStatusbarOverlay = function needsStatusbarOverlay() {
       if (device.webView && (win.innerWidth * win.innerHeight === win.screen.width * win.screen.height)) {
         if (device.iphoneX && (win.orientation === 90 || win.orientation === -90)) {
@@ -3219,7 +3219,7 @@
         }
       }
 
-      // Return app instance
+      // Return fr7 instance
       return app;
     }
 
@@ -5227,7 +5227,7 @@
     handle: function handle(e) {
       if (History.blockPopstate) { return; }
       var app = this;
-      // const mainView = app.views.main;
+      // const mainView = fr7.views.main;
       var state = e.state;
       History.previousState = History.state;
       History.state = state;
@@ -8659,7 +8659,7 @@
       // Install Modules
       view.useModules();
 
-      // Add to app
+      // Add to fr7
       app.views.push(view);
       if (view.main) {
         app.views.main = view;
@@ -8961,7 +8961,7 @@
         // Check for opened panel
         pageContent = $$1('.panel.panel-active').find('.page:not(.page-previous):not(.page-next):not(.cached)').find('.page-content');
       } else if ($$1('.views > .view.tab-active').length > 0) {
-        // View in tab bar app layout
+        // View in tab bar fr7 layout
         pageContent = $$1('.views > .view.tab-active').find('.page:not(.page-previous):not(.page-next):not(.cached)').find('.page-content');
       } else if ($$1('.views').length > 0) {
         pageContent = $$1('.views').find('.page:not(.page-previous):not(.page-next):not(.cached)').find('.page-content');
@@ -11775,7 +11775,7 @@
 
       var toast = this;
 
-      toast.app = app;
+      toast.fr7 = app;
 
       toast.params = extendedParams;
 
@@ -14966,7 +14966,7 @@
       if ($formEl.length && $formEl.is('form') && $formEl.attr('id')) {
         formId = $formEl.attr('id');
       }
-      // Store form data in app.formsData
+      // Store form data in fr7.formsData
       app.form.data[("form-" + formId)] = data;
 
       // Store form data in local storage also
@@ -15006,7 +15006,7 @@
         formId = $formEl.attr('id');
       }
 
-      // Delete form data from app.formsData
+      // Delete form data from fr7.formsData
       if (app.form.data[("form-" + formId)]) {
         app.form.data[("form-" + formId)] = '';
         delete app.form.data[("form-" + formId)];
@@ -16648,7 +16648,7 @@
 
       Framework7Class$$1.call(this, params, [app]);
       var ss = this;
-      ss.app = app;
+      ss.fr7 = app;
       var defaults = Utils.extend({
         on: {},
       }, app.params.smartSelect);
@@ -19656,7 +19656,7 @@
 
       ptr.$el = $el;
       ptr.el = $el[0];
-      ptr.app = app;
+      ptr.fr7 = app;
 
       // Extend defaults with modules params
       ptr.useModulesParams({});
@@ -23337,7 +23337,7 @@
     var startX = touches.currentX;
     var startY = touches.currentY;
 
-    // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
+    // Do NOT start if iOS edge swipe is detected. Otherwise iOS fr7 (UIWebView) cannot swipe-to-go-back anymore
 
     if (
       Device.ios &&
@@ -24211,7 +24211,7 @@
     //
     preventIntercationOnTransition: false,
 
-    // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
+    // To support iOS's swipe-to-go-back gesture (when being used in-fr7, with UIWebView).
     iOSEdgeSwipeDetection: false,
     iOSEdgeSwipeThreshold: 20,
 
@@ -24550,7 +24550,7 @@
         swiper.init();
       }
 
-      // Return app instance
+      // Return fr7 instance
       return swiper;
     }
 
@@ -27970,7 +27970,7 @@
       Framework7Class$$1.call(this, params, [app]);
 
       var pb = this;
-      pb.app = app;
+      pb.fr7 = app;
 
       var defaults = Utils.extend({
         on: {},
@@ -28638,7 +28638,7 @@
 
       var notification = this;
 
-      notification.app = app;
+      notification.fr7 = app;
 
       notification.params = extendedParams;
 
@@ -28882,7 +28882,7 @@
       Framework7Class$$1.call(this, params, [app]);
 
       var ac = this;
-      ac.app = app;
+      ac.fr7 = app;
 
       var defaults = Utils.extend({
         on: {},
@@ -29697,7 +29697,7 @@
       });
 
       if (!vi.params.appId) {
-        throw new Error('Framework7:"app.id" is required to display an ad. Make sure you have specified it on app initialization.');
+        throw new Error('Framework7:"fr7.id" is required to display an ad. Make sure you have specified it on fr7 initialization.');
       }
       if (!vi.params.placementId) {
         throw new Error('Framework7:"placementId" is required to display an ad.');

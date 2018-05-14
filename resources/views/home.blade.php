@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <!--
-    Customize this policy to fit your own app's needs. For more guidance, see:
+    Customize this policy to fit your own fr7's needs. For more guidance, see:
         https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
     Some notes:
         * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
@@ -146,7 +146,17 @@
 <!-- App routes -->
 <script src="js/routes.js"></script>
 
-<!-- Your custom app scripts -->
+<!-- Your custom fr7 scripts -->
+<script src="js/fr7.js"></script>
+
+<!-- Scripts -->
+<script>
+    window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+            'user' => Auth::user(),
+        ]) !!};
+</script>
+
 <script src="js/app.js"></script>
 
 </body>
