@@ -22,6 +22,7 @@ class AdminApiController extends Controller
         $users = User::where("name", "<>", "admin")->get();
         return Response::json(array(
             "success" => true,
+            "count" => count($users),
             "data" => $users,
         ));
     }
