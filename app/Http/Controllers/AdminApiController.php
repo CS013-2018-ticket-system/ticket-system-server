@@ -44,6 +44,8 @@ class AdminApiController extends Controller
         $refund->confirmed_by = User::where("remember_token", $request->access_token)->first()->id;
         $refund->save();
         $price = $refund->order->price;
+        $refund->order->has_cancelled = true;
+        $refund->order->save();
 
         $transaction = new Trade(array(
             "user_id" => $refund->user_id,
