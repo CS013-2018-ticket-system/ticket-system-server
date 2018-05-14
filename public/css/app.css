@@ -53,3 +53,7 @@
   -webkit-transform: none;
   transform: none;
 }
+
+body {
+  font-family: Microsoft YaHei, Hiragino Sans GB, STXihei, "华文细黑", serif;
+}
