@@ -76,7 +76,7 @@
             <!-- Toolbar-->
             <div class="toolbar">
                 <div class="toolbar-inner">
-                    <a href="{{ '/account/' }}" class="link">{{ Auth::check() ? Auth::user()->name : "" }} 的账户</a>
+                    <a href="{{ '/account/' }}" data-ignore-cache="true" class="link">{{ Auth::check() ? Auth::user()->name : "" }} 的账户</a>
                     <a href="{{ '/logout' }}" class="link">注销</a>
                 </div>
             </div>

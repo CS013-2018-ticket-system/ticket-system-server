@@ -43,7 +43,7 @@
                         <td>{{ $order->created_at }}</td>
                         <td>{!! $order->status !!}</td>
                         <td>
-                            <a class="button button-fill detail-button" href="{{ "/pay/" . $order->id }}">查看详情</a>
+                            <a class="button button-fill detail-button" data-ignore-cache="true" href="{{ "/pay/" . $order->id }}">查看详情</a>
                         </td>
                     </tr>
                 @endforeach

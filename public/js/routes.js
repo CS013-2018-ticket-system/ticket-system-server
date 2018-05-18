@@ -1,3 +1,5 @@
+var timestamp = Date.now();
+
 routes = [
   {
     path: '/',
