@@ -4,7 +4,7 @@
             <div class="left">
                 <a href="#" class="link back" data-ignore-cache="true">
                     <i class="icon icon-back"></i>
-                    <span class="ios-only">Back</span>
+                    <span class="ios-only">返回</span>
                 </a>
             </div>
             <div class="title">支付订单</div>

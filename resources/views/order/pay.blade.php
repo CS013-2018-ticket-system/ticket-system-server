@@ -4,7 +4,7 @@
             <div class="left">
                 <a href="#" class="link back" data-ignore-cache="true">
                     <i class="icon icon-back"></i>
-                    <span class="ios-only">Back</span>
+                    <span class="ios-only">返回</span>
                 </a>
             </div>
             <div class="title">支付订单</div>
@@ -20,10 +20,10 @@
                 <li>应付款 ￥{{ $order->price }}</li>
                 <li id="status">{!! $order->status !!}</li>
                 <li class="row">
-                    {!! $order->can_pay ? "<button id='confirm_pay' class='col-15 button button-outline button-small button-round color-green'>支付订单</button>" : "" !!}
-                    {!! $order->can_cancel ? "<button id='cancel_order' class='col-15 button button-outline button-small button-round color-red'>取消订单</button>" : "" !!}
-                    <a class="col-15 button button-outline button-small button-round back" href="#">返回</a>
-                    <div class="col-{{ 85 - $order->can_pay * 15 - $order->can_cancel * 15 }}">
+                    {!! $order->can_pay ? "<button id='confirm_pay' class='col-30 tablet-15 desktop-15 button button-small button-outline button-round color-green'>支付订单</button>" : "" !!}
+                    {!! $order->can_cancel ? "<button id='cancel_order' class='col-30 tablet-15 desktop-15 button button-small button-outline button-round color-red'>取消订单</button>" : "" !!}
+                    <a class="col-30 tablet-15 desktop-15 button button-small button-outline button-round back" href="#">返回</a>
+                    <div class="col-{{ 100 - (1 + $order->can_pay + $order->can_cancel) * ($agent->isMobile() ? 30 : 15) }}">
                         <!-- 占位 -->
                     </div>
                 </li>

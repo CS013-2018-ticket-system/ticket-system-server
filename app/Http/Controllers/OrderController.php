@@ -10,6 +10,7 @@ use Composer\DependencyResolver\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
+use Jenssegers\Agent\Agent;
 
 class OrderController extends Controller
 {
@@ -163,6 +164,7 @@ class OrderController extends Controller
         return view("order/pay")->with(array(
             "order" => $order,
             "request" => $request,
+            "agent" => new Agent(),
         ));
     }
 
