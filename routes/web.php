@@ -53,6 +53,8 @@ Route::prefix("api/admin")->group(function () {
     Route::post('/login', 'UserController@apiAdminLogin');
     Route::get('/users/all', 'AdminApiController@apiUsersAll');
     Route::get('/refund/{refund_id}/confirm', 'AdminApiController@apiReviewRefund');
+    Route::get('/orders/all', 'AdminApiController@apiOrdersAll');
+    Route::get('/users/{user_id}/orders/all', 'AdminApiController@apiUsersOrdersAll');
 });
 
 Route::prefix("api/stations")->group(function () {

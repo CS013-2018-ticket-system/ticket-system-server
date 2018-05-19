@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\RefundReviewedEvent;
+use App\Order;
 use App\RefundRequests;
 use App\Trade;
 use App\User;
@@ -20,6 +21,11 @@ class AdminApiController extends Controller
     public function apiUsersAll()
     {
         $users = User::where("name", "<>", "admin")->get();
+        foreach ($users as $user) {
+            $user->id_number = substr($user->id_number, 0, 3) . "***" .
+                substr($user->id_number, 6, 2) . "****" . substr($user->id_number, 12, 4) .
+                "**";
+        }
         return Response::json(array(
             "success" => true,
             "count" => count($users),
@@ -66,5 +72,29 @@ class AdminApiController extends Controller
             "success" => true,
         ));
 
+    }
+
+    public function apiOrdersAll(Request $request)
+    {
+        $count = $request->count;
+        $offset = $request->offset;
+
+        if ($count == null) {
+            $count = 10;
+        }
+
+        if ($offset == null) {
+            $offset = 0;
+        }
+
+        $orders = Order::offset($offset)
+            ->limit($count)
+            ->get();
+
+        return Response::json(array(
+            "success" => true,
+            "count" => count($orders),
+            "data" => $orders,
+        ));
     }
 }
