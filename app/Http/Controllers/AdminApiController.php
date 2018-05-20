@@ -94,7 +94,54 @@ class AdminApiController extends Controller
         return Response::json(array(
             "success" => true,
             "count" => count($orders),
+            "page_count" => intval((Order::get()->count()-1) / $count + 1),
             "data" => $orders,
         ));
+    }
+
+    public function processRefunds($refunds)
+    {
+        foreach ($refunds as $refund) {
+            $refund->order;
+            $refund->user;
+        }
+        return $refunds;
+    }
+
+    public function apiRefundGet(Request $request)
+    {
+        // return all cancel order requests
+        $count = $request->count;
+        $offset = $request->offset;
+        $type = $request->type;
+
+        switch ($type) {
+            case "confirmed":
+                $refunds = RefundRequests::where("has_confirmed", true);
+                return Response::json(array(
+                    "success" => true,
+                    "count" => count($refunds->offset($offset)->limit($count)->orderBy("id", "desc")->get()),
+                    "page_count" => intval(($refunds->count()-1) / $count + 1),
+                    "data" => $this->processRefunds($refunds->offset($offset)->limit($count)->orderBy("id", "desc")->get()),
+                ));
+            case "unconfirmed":
+                $refunds = RefundRequests::where("has_confirmed", false);
+                return Response::json(array(
+                    "success" => true,
+                    "count" => count($refunds->offset($offset)->limit($count)->orderBy("id", "desc")->get()),
+                    "page_count" => intval(($refunds->count()-1) / $count + 1),
+                    "data" => $this->processRefunds($refunds->offset($offset)->limit($count)->orderBy("id", "desc")->get()),
+                ));
+            case "all":
+                $refunds = RefundRequests::all();
+                return Response::json(array(
+                    "success" => true,
+                    "count" => count(RefundRequests::offset($offset)->limit($count)->orderBy("id", "desc")->get()),
+                    "page_count" => intval(($refunds->count()-1) / $count + 1),
+                    "data" => $this->processRefunds(RefundRequests::offset($offset)->limit($count)->orderBy("id", "desc")->get()),
+                ));
+        }
+
+
     }
 }

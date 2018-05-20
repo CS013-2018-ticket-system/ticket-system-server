@@ -28,6 +28,6 @@ class User extends Authenticatable
     ];
 
     public function trades() {
-        return $this->hasMany("App\Trade");
+        return $this->hasMany("App\Trade")->orderBy("id", "desc");
     }
 }
