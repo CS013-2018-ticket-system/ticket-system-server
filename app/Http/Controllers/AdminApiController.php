@@ -102,8 +102,7 @@ class AdminApiController extends Controller
     public function processRefunds($refunds)
     {
         foreach ($refunds as $refund) {
-            $refund->order;
-            $refund->user;
+            $refund->order->user;
         }
         return $refunds;
     }
