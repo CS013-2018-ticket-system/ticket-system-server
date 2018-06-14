@@ -158,7 +158,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="item-content item-input col-20">
+                                            <div class="item-content item-input col-40 desktop-20">
                                                 <button class="button button-fill" type="submit">提交订单</button>
 
                                             </div>
